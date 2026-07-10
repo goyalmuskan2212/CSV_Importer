@@ -5,7 +5,7 @@ An AI-powered CSV importer that maps leads from *any* CSV layout (Facebook Lead 
 ## Screenshots
 
 **1. Upload — drag & drop or browse for a CSV**
-![Upload step](uploads/Screenshot 2026-07-10 181954.png)
+![Upload step](uploads/1-upload (1).png)
 
 **2. Preview — parsed client-side, nothing sent to the AI yet**
 ![Preview step](uploads/2-preview.png)
