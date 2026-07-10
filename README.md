@@ -2,6 +2,20 @@
 
 An AI-powered CSV importer that maps leads from *any* CSV layout (Facebook Lead Ads, Google Ads, real-estate CRMs, sales sheets, manual exports — anything) into a fixed CRM schema, using an LLM for the field-mapping step instead of hardcoded column rules.
 
+## Screenshots
+
+**1. Upload — drag & drop or browse for a CSV**
+![Upload step](c:\Users\BIT\Downloads\1-upload.png)
+
+**2. Preview — parsed client-side, nothing sent to the AI yet**
+![Preview step](c:\Users\BIT\Downloads\2-preview.png)
+
+**3. Results — imported records mapped to the CRM schema**
+![Imported results](c:\Users\BIT\Downloads\3-results-imported.png)
+
+**4. Results — skipped records with the reason shown**
+![Skipped results](c:\Users\BIT\Downloads\4-results-skipped.png)
+
 ## How it works
 
 1. **Upload** — user drags/drops or picks a `.csv` file.
@@ -9,6 +23,12 @@ An AI-powered CSV importer that maps leads from *any* CSV layout (Facebook Lead 
 3. **Confirm & Import** — only on explicit confirmation does the frontend POST the file to the backend.
 4. **AI Extraction** — the backend parses the CSV again server-side, batches rows (default 10/batch) to Groq (`llama-3.3-70b-versatile`) using structured JSON output, and maps arbitrary columns to the CRM schema.
 5. **Results** — imported vs. skipped records are shown with totals. Rows without an email *and* a mobile number are skipped per spec.
+
+## Limits
+
+- **Max file size: 10MB** per upload (enforced by the backend's multer middleware; larger files are rejected with a clear error before parsing).
+- **Max rows: 2,000** per CSV (enforced in `importController.ts`, to keep AI batch-processing time and Render's free-tier request timeout predictable for this demo). Larger files return a 413 error asking you to split the file.
+- Both limits are easy to raise — see `backend/src/middleware/upload.ts` (file size) and `backend/src/controllers/importController.ts` (row cap) if you need higher ceilings for production use.
 
 ## Project structure
 
@@ -26,6 +46,7 @@ csv-importer/
 │   ├── components/         # FileUpload, CsvPreviewTable, ResultsTable, etc.
 │   └── lib/                 # api client + shared types
 ├── samples/            # messy test CSVs (Facebook-style + fully generic headers)
+├── screenshots/         # app screenshots used in this README
 └── docker-compose.yml
 ```
 
@@ -68,7 +89,6 @@ Frontend: `http://localhost:3000`, backend: `http://localhost:4000`.
 - **Batching + retries.** Rows are sent in configurable batches (`AI_BATCH_SIZE`, default 10) with exponential-backoff retries (3 attempts) per batch, so one flaky batch doesn't fail the whole import.
 - **Row order is preserved** via an `_idx` tag round-tripped through the model, with a positional fallback if the model ever returns a missing/invalid index, so results always map back to the correct original row.
 - **Stateless by design.** No database — matches the spec's "optional" note and keeps the deployment surface small. Everything happens in a single request/response cycle.
-- **10MB / 2000-row caps** on the backend to keep demo requests fast and predictable; tune in `importController.ts` if you need more.
 
 ## Bonus features implemented
 
