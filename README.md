@@ -5,16 +5,16 @@ An AI-powered CSV importer that maps leads from *any* CSV layout (Facebook Lead 
 ## Screenshots
 
 **1. Upload — drag & drop or browse for a CSV**
-![Upload step](c:\Users\BIT\Downloads\1-upload.png)
+![Upload step](uploads/1-upload.png)
 
 **2. Preview — parsed client-side, nothing sent to the AI yet**
-![Preview step](c:\Users\BIT\Downloads\2-preview.png)
+![Preview step](uploads/2-preview.png)
 
 **3. Results — imported records mapped to the CRM schema**
-![Imported results](c:\Users\BIT\Downloads\3-results-imported.png)
+![Imported results](uploads/3-results-imported.png)
 
 **4. Results — skipped records with the reason shown**
-![Skipped results](c:\Users\BIT\Downloads\4-results-skipped.png)
+![Skipped results](uploads/4-results-skipped.png)
 
 ## How it works
 
